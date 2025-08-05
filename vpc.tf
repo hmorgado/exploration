@@ -15,7 +15,7 @@ resource "aws_vpc_ipv4_cidr_block_association" "secondary_ipv4" {
 }
 
 resource "aws_vpc_ipv6_cidr_block_association" "secondary_ipv6" {
-  vpc_id          = aws_vpc.main.id
+  vpc_id                           = aws_vpc.main.id
   assign_generated_ipv6_cidr_block = true
 }
 
