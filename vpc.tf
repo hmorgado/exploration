@@ -14,10 +14,10 @@ provider "aws" {
 }
 
 resource "aws_vpc" "main" {
-  cidr_block                           = var.vpc_cidr
-  enable_dns_support                   = true
-  enable_dns_hostnames                 = true
-  ipv6_cidr_block_network_border_group = var.region
+  cidr_block                       = var.vpc_cidr
+  enable_dns_support               = true
+  enable_dns_hostnames             = true
+  assign_generated_ipv6_cidr_block = true
 
   tags = {
     Name = "Production_Explore-vpc"
@@ -34,10 +34,15 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_subnet" "public" {
   for_each = { for idx, cidr in var.public_subnet_cidrs : idx => cidr }
 
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = each.value
-  availability_zone       = element(var.availability_zones, each.key)
-  map_public_ip_on_launch = true
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = each.value
+  availability_zone               = element(var.availability_zones, each.key)
+  map_public_ip_on_launch         = true
+  assign_ipv6_address_on_creation = true
+
+  ipv6_cidr_block = local.public_ipv6_cidrs[each.key]
+
+
   tags = {
     Name = "Production_Explore-subnet-public${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
@@ -46,10 +51,12 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
   for_each = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
 
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = each.value
-  availability_zone       = element(var.availability_zones, each.key)
-  map_public_ip_on_launch = true
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = each.value
+  availability_zone               = element(var.availability_zones, each.key)
+  # map_public_ip_on_launch         = true
+  assign_ipv6_address_on_creation = true
+  ipv6_cidr_block = local.private_ipv6_cidrs[each.key]
   tags = {
     Name = "Production_Explore-subnet-private${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
@@ -76,7 +83,6 @@ resource "aws_route_table" "public" {
 resource "aws_route_table" "private" {
   for_each = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
 
-
   vpc_id = aws_vpc.main.id
 
   tags = {
@@ -99,3 +105,4 @@ resource "aws_route_table_association" "public" {
 }
 
 # TODO add VPC Endpoint
+# TODO add ipv6 to route tables
