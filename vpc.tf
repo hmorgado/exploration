@@ -14,9 +14,11 @@ provider "aws" {
 }
 
 resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+  cidr_block                           = var.vpc_cidr
+  enable_dns_support                   = true
+  enable_dns_hostnames                 = true
+  ipv6_cidr_block_network_border_group = var.region
+
   tags = {
     Name = "Production_Explore-vpc"
   }
@@ -63,7 +65,7 @@ resource "aws_route_table" "public" {
 
   route {
     ipv6_cidr_block = "::/0"
-    gateway_id = aws_internet_gateway.igw.id
+    gateway_id      = aws_internet_gateway.igw.id
   }
 
   tags = {
