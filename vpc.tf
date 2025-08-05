@@ -19,13 +19,6 @@ resource "aws_vpc_ipv6_cidr_block_association" "secondary_ipv6" {
   assign_generated_ipv6_cidr_block = true
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "Production_Explore-igw"
-  }
-}
-
 resource "aws_subnet" "public" {
   for_each = { for idx, cidr in var.public_subnet_cidrs : idx => cidr }
 
@@ -56,47 +49,6 @@ resource "aws_subnet" "private" {
   }
 }
 
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.igw.id
-  }
-
-  tags = {
-    Name = "Production_Explore-rtb-public"
-  }
-}
-
-resource "aws_route_table" "private" {
-  for_each = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
-
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "Production_Explore-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
-  }
-}
-
-resource "aws_route_table_association" "private" {
-  for_each = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
-
-  subnet_id      = aws_subnet.private[each.key].id
-  route_table_id = aws_route_table.private[each.key].id
-}
-
-resource "aws_route_table_association" "public" {
-  for_each = { for idx, cidr in var.public_subnet_cidrs : idx => cidr }
-
-  subnet_id      = aws_subnet.public[each.key].id
-  route_table_id = aws_route_table.public.id
-}
 
 # IPv4 and IPv6 subnets - chap 3 "Create Subnets"
 resource "aws_subnet" "isolated_dev_a" {
