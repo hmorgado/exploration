@@ -43,6 +43,33 @@ resource "aws_vpc_security_group_egress_rule" "to_web_tier" {
 }
 
 # INBOUND
+resource "aws_vpc_security_group_ingress_rule" "from_load_balancer" {
+  security_group_id = aws_security_group.sg["web_tier"].id
+
+  ip_protocol = "TCP"
+  from_port   = 80
+  to_port     = 80
+  referenced_security_group_id = aws_security_group.sg["load_balancer"].id
+  tags = {
+    "Name" = "Allow traffic from load balancer"
+  }
+}
+
+# OUTBOUND
+resource "aws_vpc_security_group_egress_rule" "to_database" {
+  security_group_id = aws_security_group.sg["web_tier"].id
+
+  ip_protocol                  = "TCP"
+  from_port                    = 5432
+  to_port                      = 5432
+  referenced_security_group_id = aws_security_group.sg["database"].id
+
+  tags = {
+    "Name" = "Allow traffic to Database"
+  }
+}
+
+# INBOUND
 resource "aws_vpc_security_group_ingress_rule" "from_web_tier" {
   security_group_id = aws_security_group.sg["database"].id
 
@@ -52,7 +79,6 @@ resource "aws_vpc_security_group_ingress_rule" "from_web_tier" {
   referenced_security_group_id = aws_security_group.sg["web_tier"].id
 
   tags = {
-    "Name" = "Allow traffic from internet"
+    "Name" = "Allow traffic from Web Tier"
   }
 }
-
