@@ -1,5 +1,6 @@
 # TODO add VPC Endpoint
 # TODO add ipv6 to route tables
+
 # TODO NAT gateway for prv subnets 1: create elastic IP
 # TODO NAT gateway for prv subnets 2: associate EIP with NAT GW
 # TODO NAT gateway for prv subnets 3: put NAT GW in public subnet

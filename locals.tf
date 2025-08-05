@@ -10,4 +10,16 @@ locals {
     "2600:1f1c:fbb:1e04::/64",
     "2600:1f1c:fbb:1e05::/64",
   ]
+
+  security_groups = {
+    load_balancer = {
+
+    }
+    web_tier = {
+
+    }
+    database = {
+
+    }
+  }
 }
