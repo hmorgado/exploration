@@ -32,9 +32,9 @@ resource "aws_vpc_security_group_ingress_rule" "from_internet" {
 resource "aws_vpc_security_group_egress_rule" "to_web_tier" {
   security_group_id = aws_security_group.sg["load_balancer"].id
 
-  ip_protocol = "TCP"
-  from_port   = 0
-  to_port     = 0
+  ip_protocol                  = "TCP"
+  from_port                    = 0
+  to_port                      = 0
   referenced_security_group_id = aws_security_group.sg["web_tier"].id
 
   tags = {
@@ -46,9 +46,9 @@ resource "aws_vpc_security_group_egress_rule" "to_web_tier" {
 resource "aws_vpc_security_group_ingress_rule" "from_web_tier" {
   security_group_id = aws_security_group.sg["database"].id
 
-  ip_protocol = "TCP"
-  from_port   = 5432
-  to_port     = 5432
+  ip_protocol                  = "TCP"
+  from_port                    = 5432
+  to_port                      = 5432
   referenced_security_group_id = aws_security_group.sg["web_tier"].id
 
   tags = {

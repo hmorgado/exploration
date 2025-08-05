@@ -11,15 +11,10 @@ locals {
     "2600:1f1c:fbb:1e05::/64",
   ]
 
+  # rules, ports, etc could be moved here
   security_groups = {
-    load_balancer = {
-
-    }
-    web_tier = {
-
-    }
-    database = {
-
-    }
+    load_balancer = {}
+    web_tier      = {}
+    database      = {}
   }
 }
