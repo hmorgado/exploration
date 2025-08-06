@@ -16,10 +16,22 @@ resource "aws_route_table" "public" {
   }
 }
 
+locals {
+  nat_gws = {
+    "us-west-1a" = aws_nat_gateway.nat_gw_a.id
+    "us-west-1c" = aws_nat_gateway.nat_gw_c.id
+  }
+}
+
 resource "aws_route_table" "private" {
   for_each = { for idx, cidr in var.private_subnet_cidrs : idx => cidr }
 
   vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = local.nat_gws[element(var.availability_zones, each.key)]
+  }
 
   tags = {
     Name = "${local.env_name}-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
