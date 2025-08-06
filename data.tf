@@ -26,6 +26,6 @@ data "aws_subnet" "public_a" {
 data "aws_subnet" "public_c" {
   filter {
     name   = "tag:Name"
-    values = ["${local.env_name}-subnet-public1-us-west-1a"]
+    values = ["${local.env_name}-subnet-public2-us-west-1c"]
   }
 }
