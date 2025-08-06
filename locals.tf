@@ -17,4 +17,6 @@ locals {
     web_tier      = {}
     database      = {}
   }
+
+  isolated_subnet_ids = [data.aws_subnet.isolated_a.id, data.aws_subnet.isolated_c.id]
 }
