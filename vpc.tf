@@ -1,11 +1,22 @@
-resource "aws_vpc" "main" {
-  cidr_block                       = var.vpc_cidr
+resource "aws_vpc" "dev" {
+  cidr_block                       = var.vpc_cidr_dev
   enable_dns_support               = true
   enable_dns_hostnames             = true
   assign_generated_ipv6_cidr_block = true
 
   tags = {
-    Name = "${local.env_name}-vpc"
+    Name = "${local.dev_name}-vpc"
+  }
+}
+
+resource "aws_vpc" "main" {
+  cidr_block                       = var.vpc_cidr_prod
+  enable_dns_support               = true
+  enable_dns_hostnames             = true
+  assign_generated_ipv6_cidr_block = true
+
+  tags = {
+    Name = "${local.prod_name}-vpc"
   }
 }
 
@@ -32,7 +43,7 @@ resource "aws_subnet" "public" {
 
 
   tags = {
-    Name = "${local.env_name}-subnet-public${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.prod_name}-subnet-public${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 
@@ -45,7 +56,7 @@ resource "aws_subnet" "private" {
   assign_ipv6_address_on_creation = true
   ipv6_cidr_block                 = local.private_ipv6_cidrs[each.key]
   tags = {
-    Name = "${local.env_name}-subnet-private${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.prod_name}-subnet-private${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 

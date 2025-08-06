@@ -2,7 +2,7 @@
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${local.env_name}-igw"
+    Name = "${local.prod_name}-igw"
   }
 }
 
@@ -13,7 +13,7 @@ resource "aws_egress_only_internet_gateway" "eigw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${local.env_name}-eigw"
+    Name = "${local.prod_name}-eigw"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_nat_gateway" "nat_gw_a" {
   allocation_id     = aws_eip.eip_a.allocation_id
 
   tags = {
-    "Name" = "${local.env_name}_Nat_GW_us-west-1a"
+    "Name" = "${local.prod_name}_Nat_GW_us-west-1a"
   }
 
   depends_on = [aws_eip.eip_a]
@@ -47,7 +47,7 @@ resource "aws_nat_gateway" "nat_gw_c" {
   allocation_id     = aws_eip.eip_c.allocation_id
 
   tags = {
-    "Name" = "${local.env_name}_Nat_GW_us-west-1c"
+    "Name" = "${local.prod_name}_Nat_GW_us-west-1c"
   }
 
   depends_on = [aws_eip.eip_c]

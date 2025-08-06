@@ -1,5 +1,7 @@
 locals {
-  env_name = "Production_Explore"
+
+  dev_name = "Dev_Explore"
+  prod_name = "Production_Explore"
 
   public_ipv6_cidrs = [
     "2600:1f1c:fbb:1e00::/64",

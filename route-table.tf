@@ -12,7 +12,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${local.env_name}-rtb-public"
+    Name = "${local.prod_name}-rtb-public"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${local.env_name}-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.prod_name}-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 
