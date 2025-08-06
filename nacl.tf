@@ -56,20 +56,6 @@ resource "aws_network_acl_rule" "https_out_ipv6" {
   ipv6_cidr_block = "::/0"
 }
 
-data "aws_subnet" "isolated_a" {
-  filter {
-    name   = "tag:Name"
-    values = ["Isolated_Dev_US_West_1a"]
-  }
-}
-
-data "aws_subnet" "isolated_c" {
-  filter {
-    name   = "tag:Name"
-    values = ["Isolated_Dev_US_West_1c"]
-  }
-}
-
 # associates NACL with Isolated subnets
 resource "aws_network_acl_association" "https" {
   for_each = { for idx, subnet_id in local.isolated_subnet_ids : idx => subnet_id }
