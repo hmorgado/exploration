@@ -2,17 +2,17 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
+    ipv6_cidr_block        = "::/0"
+    egress_only_gateway_id = aws_egress_only_internet_gateway.eigw.id
+  }
+
+  route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
 
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.igw.id
-  }
-
   tags = {
-    Name = "Production_Explore-rtb-public"
+    Name = "${local.env_name}-rtb-public"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "Production_Explore-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.env_name}-rtb-private${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 

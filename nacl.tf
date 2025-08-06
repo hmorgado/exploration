@@ -58,14 +58,14 @@ resource "aws_network_acl_rule" "https_out_ipv6" {
 
 data "aws_subnet" "isolated_a" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = ["Isolated_Dev_US_West_1a"]
   }
 }
 
 data "aws_subnet" "isolated_c" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = ["Isolated_Dev_US_West_1c"]
   }
 }

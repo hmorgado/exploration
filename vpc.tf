@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   assign_generated_ipv6_cidr_block = true
 
   tags = {
-    Name = "Production_Explore-vpc"
+    Name = "${local.env_name}-vpc"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "public" {
 
 
   tags = {
-    Name = "Production_Explore-subnet-public${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.env_name}-subnet-public${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_subnet" "private" {
   assign_ipv6_address_on_creation = true
   ipv6_cidr_block                 = local.private_ipv6_cidrs[each.key]
   tags = {
-    Name = "Production_Explore-subnet-private${each.key + 1}-${element(var.availability_zones, each.key)}"
+    Name = "${local.env_name}-subnet-private${each.key + 1}-${element(var.availability_zones, each.key)}"
   }
 }
 
