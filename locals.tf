@@ -1,6 +1,6 @@
 locals {
 
-  dev_name = "Dev_Explore"
+  dev_name  = "Dev_Explore"
   prod_name = "Production_Explore"
 
   public_ipv6_cidrs = [
@@ -22,5 +22,12 @@ locals {
     database      = {}
   }
 
-  isolated_subnet_ids = [data.aws_subnet.isolated_a.id, data.aws_subnet.isolated_c.id]
+  isolated_subnet_ids = [
+    data.aws_subnet.isolated_a.id,
+    data.aws_subnet.isolated_c.id
+  ]
+
+  # returns a list of ids for private subnets
+  private_subnet_ids = [for idx in range(length(aws_subnet.private)) : aws_subnet.private[idx].id]
+  private_route_table_ids = [for idx in range(length(aws_route_table.private)) : aws_route_table.private[idx].id]
 }

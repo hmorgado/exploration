@@ -1,3 +1,4 @@
+# Dev
 resource "aws_vpc" "dev" {
   cidr_block                       = var.vpc_cidr_dev
   enable_dns_support               = true
@@ -9,6 +10,7 @@ resource "aws_vpc" "dev" {
   }
 }
 
+# Production
 resource "aws_vpc" "main" {
   cidr_block                       = var.vpc_cidr_prod
   enable_dns_support               = true
