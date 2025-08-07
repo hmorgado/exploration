@@ -39,7 +39,6 @@ resource "aws_subnet" "isolated_dev_a" {
   }
 }
 
-# us-west-1b wasn't available
 resource "aws_subnet" "isolated_dev_c" {
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = "10.0.65.0/26" # due to error: MissingParameter: Either 'cidrBlock' or 'ipv4IpamPoolId' should be provided. https://github.com/hashicorp/terraform-provider-aws/issues/42414

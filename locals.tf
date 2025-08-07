@@ -29,5 +29,7 @@ locals {
 
   # returns a list of ids for private subnets
   private_subnet_ids = [for idx in range(length(aws_subnet.private)) : aws_subnet.private[idx].id]
+
+  # returns a list of ids for private route tables
   private_route_table_ids = [for idx in range(length(aws_route_table.private)) : aws_route_table.private[idx].id]
 }
