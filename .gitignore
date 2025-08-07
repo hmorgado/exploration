@@ -1,6 +1,8 @@
 .idea/
 tmp/
 .terraform/
+.statefiles/
 terraform.*
-.terraform.lock.hcl
+.state-files/.terraform.lock.hcl
 .terraform.tfstate.lock.info
+.terraform.lock.hcl
