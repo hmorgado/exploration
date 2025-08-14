@@ -40,5 +40,6 @@ locals {
   # }
   private_subnet_ids_map_per_region = { for idx in range(length(aws_subnet.private)) : aws_subnet.private[idx].availability_zone => aws_subnet.private[idx].id ... }
 
-  blocked_websites = ["virus-765431fd89e.com", "sdhfiuwwh98723475.info", "defnotagoodwebsitetoclick.io"]
+  # needs "." at the end of FQDN to avoid perpetual changes
+  blocked_websites = ["virus-765431fd89e.com.", "sdhfiuwwh98723475.info.", "defnotagoodwebsitetoclick.io."]
 }
